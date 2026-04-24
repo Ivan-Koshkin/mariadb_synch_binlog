@@ -1,23 +1,13 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
     name='mariadb-synch-binlog',
     version='0.1.0',
-    packages=find_packages(
-        include=[
-            'mariadb_synch_binlog',
-            'mariadb_synch_binlog.src',
-            'mariadb_synch_binlog.src.*',
-        ],
-        exclude=[
-            'mariadb_synch_binlog.tests',
-            'mariadb_synch_binlog.tests.*',
-            'mariadb_synch_binlog.plugins_test',
-            'mariadb_synch_binlog.plugins_test.*',
-            'mariadb_synch_binlog.config',
-            'mariadb_synch_binlog.config.*',
-        ],
-    ),
+    description='MariaDB binlog sync engine',
+    package_dir={
+        'mariadb_synch_binlog': 'src',
+    },
+    packages=['mariadb_synch_binlog'],
     install_requires=[
         'pymysql',
         'mysql-replication',
