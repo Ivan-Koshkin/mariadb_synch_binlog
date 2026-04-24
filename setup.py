@@ -4,11 +4,8 @@ setup(
     name='mariadb-synch-binlog',
     version='0.1.0',
     description='MariaDB binlog sync engine',
-    packages=find_packages(include=[
-        'src', 'src.*',
-        'plugins_test', 'plugins_test.*',
-        'config', 'config.*',
-    ]),
+    package_dir={'': 'src'},
+    packages=find_packages(where='src'),
     install_requires=[
         'pymysql',
         'mysql-replication',
