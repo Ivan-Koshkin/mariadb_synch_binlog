@@ -197,7 +197,7 @@ def preflight_check_ex(cursor, mysql_settings, app_settings):
 
         finally:
             stream.close()
-            return
+        return
 
     def check_tables(cursor, db_name, tables):
 
@@ -291,7 +291,7 @@ def start_binlog_consumer(mysql_settings, app_settings, binlog):
         logger.exception(f"Consumer exception: {e}")
     finally:
         binlog_stream.close()
-        return
+    return
 
 
 def health_server(socket_path, mysql_settings, app_settings):
@@ -356,7 +356,7 @@ def health_server(socket_path, mysql_settings, app_settings):
         if os.path.exists(socket_path):
             os.remove(socket_path)
         logger.info("🔴 Health server stopped")
-        return
+    return
 
 
 
@@ -590,7 +590,7 @@ def run(MYSQL_SETTINGS, APP_SETTINGS):
             workers_thread.join()
 
         USER_FUNC.tear_down()
-        return 0
+    return 0
 
 
 def stop():
