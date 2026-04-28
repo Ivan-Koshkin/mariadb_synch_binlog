@@ -579,7 +579,6 @@ def run(MYSQL_SETTINGS, APP_SETTINGS):
 
     except Exception as e:
         logger.exception(f"Exception: {e}")
-        logger.traceback(e)
         exit(-1)
 
     finally:
