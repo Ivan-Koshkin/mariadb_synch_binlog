@@ -6,14 +6,13 @@ from datetime import timedelta
 import logging
 import socket
 import threading
-import importlib
 import sys
 import json
 from enum import Enum
 import traceback
 from pymysqlreplication import BinLogStreamReader
 from pymysqlreplication.row_event import WriteRowsEvent, UpdateRowsEvent, DeleteRowsEvent
-from pymysqlreplication.event import MariadbGtidEvent, XidEvent, QueryEvent
+from pymysqlreplication.event import XidEvent, QueryEvent
 
 from .tools import binlog_file, plugin_wrapper, regeneration_threads_controller, get_binlog_diff, get_binlog_from_db, insert_buffer
 from .synch_storage import synch_storage
@@ -66,14 +65,14 @@ GLOBAL_LOCK = threading.Lock()
 SYNCH_STORAGE = None
 
 def init(MYSQL_SETTINGS, APP_SETTINGS):
-    global USER_FUNC, STOP, LAST_SIGINT, FORCE_EXIT_WINDOW, STAGE, REGENERATION_CONTROLLER, PARSED_BINLOG, PARSED_BINLOG_MY
+    global USER_FUNC, STOP, LAST_SIGINT, FORCE_EXIT_WINDOW, STAGE, REGENERATION_CONTROLLER, PARSED_BINLOG_TOTAL, PARSED_BINLOG_MY
     USER_FUNC = plugin_wrapper(APP_SETTINGS['handle_events_plugin'])
     STOP = False
     LAST_SIGINT = 0
     FORCE_EXIT_WINDOW = 1.5
     STAGE = Stage.INIT
     REGENERATION_CONTROLLER = regeneration_threads_controller(APP_SETTINGS['full_regeneration_threads_count'])
-    PARSED_BINLOG = None
+    PARSED_BINLOG_TOTAL = None
     PARSED_BINLOG_MY = None
 
 REQUIRED = {
@@ -98,7 +97,7 @@ def save_binlog_position(binlog):
 
 
 def handle_stop(signum, frame):
-    global STOP, LAST_SIGINT, user_func
+    global STOP, LAST_SIGINT, USER_FUNC
     now = time.time()
 
     # второй Ctrl+C подряд
