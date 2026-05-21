@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='mariadb-synch-binlog',
-    version='0.1.1',
+    version='0.1.2',
     description='MariaDB binlog sync engine',
     package_dir={
         'mariadb_synch_binlog': 'src',
