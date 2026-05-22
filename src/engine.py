@@ -344,7 +344,7 @@ def health_server(socket_path, mysql_settings, app_settings):
                             "error": '',
                         }
 
-                except Exception as e:
+                except (pymysql.MySQLError, TimeoutError, OSError, ValueError) as e:
                     logger.exception("Health check failed.")
                     response = {
                         "status": "error",
