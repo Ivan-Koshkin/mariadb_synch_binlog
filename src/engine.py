@@ -17,19 +17,8 @@ from pymysqlreplication.event import XidEvent, QueryEvent
 from .tools import binlog_file, plugin_wrapper, regeneration_threads_controller, get_binlog_diff, get_binlog_from_db, insert_buffer
 from .synch_storage import synch_storage
 
-logging.getLogger("pymysqlreplication").setLevel(logging.ERROR)
-
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.CRITICAL)
-
-if not logger.handlers:
-    console_handler = logging.StreamHandler()
-    console_handler.setLevel(logging.DEBUG)
-    formatter = logging.Formatter(
-        "%(asctime)s - %(name)s - %(levelname)s:%(lineno)d  - %(message)s"
-    )
-    console_handler.setFormatter(formatter)
-    logger.addHandler(console_handler)
+logger.addHandler(logging.NullHandler())
 
 def thread_exception_handler(args):
     print(f"❌ Thread {args.thread.name} crashed:", args.exc_value)
